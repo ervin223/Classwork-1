@@ -1,33 +1,35 @@
   #kalkulaator
 try:
-    a=float(input("Esimene arv:"))
+    a = float(input("Esimene arv: "))
+    b = float(input("Teine arv: "))
     try:
-        print("Vale andmetuup")
-        t=input("Tehe:")
-        if t in ['+','-','/','*','**','//']:
-            if t=='+':
-                v=a+b
-            elif t=='-':
-                v=a-b
-            elif t=='*':
-                v=a*b
-            elif t=='**':
-                v=a**b
-            elif t=='/':
-                if b==0:
-                    v="DIV/8"
+        t = input("Tehe: ")
+        if t in ['+', '-', '/', '*', '**', '//']:
+            if t == '+':
+                v = a + b
+            elif t == '-':
+                v = a - b
+            elif t == '*':
+                v = a * b
+            elif t == '**':
+                v = a ** b
+            elif t == '/':
+                if b == 0:
+                    v = "DIV/0"  
                 else:
-                    v=a/b
-            print("{0}{1}{2}={3}".format(a,t,b,v))
+                    v = a / b
+            elif t == '//':
+                v = a // b
+            print("{0} {1} {2} = {3}".format(a, t, b, v))
         else:
             print("Tundmatu mark")
     except:
-        print("vale b")
+        print("Vale tehte sisend")
+except ValueError:
+    print("Vale arv sisend")
+except ZeroDivisionError:
+    print("Nulliga jagamine")
 
-    pass
-else:
-    print("Tundmatu mark")
- 
  
  
  #kolmnurk
