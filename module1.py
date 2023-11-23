@@ -1,13 +1,8 @@
-shop=str(input("what u want to buy milk or bread"))
-milk=2 
-bread=1
-if milk:
-    print(2)
-elif bread:
-    print(1)
-elif milk and bread:
-    print(3)
+
 #1
+from stringprep import c22_specials
+
+
 while True:
     name = str(input("Put your name: "))
     if name == "Juku":
@@ -65,6 +60,14 @@ else:
     print("tall")
 
 #7
+height=float(input("write your height"))
+gender=str(input("write your gender"))
+if height>180:
+    print("medium")
+else:
+    print("tall")
+
+#8
 shop=str(input("what u want to buy milk or bread"))
 milk=2 
 bread=1
@@ -74,6 +77,18 @@ elif bread:
     print(1)
 elif milk+bread:
     print(3)
+
+#9
+a=float(input("write side: "))
+b=float(input("write side: "))
+c=float(input("write side: "))
+d=float(input("write side:"))
+if a==b==c==d:
+    print("square")
+else:
+    print("not a square")
+
+#10
 
 
 
