@@ -1,8 +1,7 @@
+﻿from datetime import datetime
+import math
 
 #1
-from stringprep import c22_specials
-
-
 while True:
     name = str(input("Put your name: "))
     if name == "Juku":
@@ -89,6 +88,91 @@ else:
     print("not a square")
 
 #10
+try:
+    a = float(input("Esimene arv: "))
+    b = float(input("Teine arv: "))
+    try:
+        t = input("Tehe: ")
+        if t in ['+', '-', '/', '*', '**', '//']:
+            if t == '+':
+                v = a + b
+            elif t == '-':
+                v = a - b
+            elif t == '*':
+                v = a * b
+            elif t == '/':
+                if b == 0:
+                    v = "DIV/0"  
+                else:
+                    v = a / b
+            print("{0} {1} {2} = {3}".format(a, t, b, v))
+        else:
+            print("Tundmatu mark")
+    except:
+        print("Vale tehte sisend")
+except ValueError:
+    print("Vale arv sisend")
+except ZeroDivisionError:
+    print("Nulliga jagamine")
+    
+#11
+
+current_date = datetime.now()
+birthdate_input = input("Введите дату рождения в формате 'YYYY-MM-DD': ")
+age = current_date.year - birth_date.year - ((current_date.month, current_date.day) < (birth_date.month, birth_date.day))
+if age % 25 == 0:
+    print(f"Поздравляем! Ваш {age} является юбилейным!")
+else:
+    print(f"Ваш {age} не является юбилейным.")
+    
+#12
+
+price_1 = float(input("Write price: "))
+price_2 = price_1
+
+if price_1 < 10:
+    price_2 = price_1 - price_1 * 0.1
+    print(price_2)
+else:
+    price_2 = price_1 - price_1 * 0.2
+    print(price_2)
+    
+#13
+
+while True:
+    gender=str(input("Man or woman: "))
+    if gender == "woman":
+        break
+    else:
+        age=int(input("Put age: "))
+        if 16<=age<=18:
+            print("succesful")
+        else:
+            print("not succesful")
+            
+#14
+
+people = int(input("write number of people: "))
+spots_bus = int(input("write number of spots: "))
+
+if people <= spots_bus:
+    print("succesful")
+else:
+    buses = math.ceil(people / spots_bus)
+    print("{} buses you need".format(buses))
+
+        
+    
+    
+
+
+
+
+    
+    
+
+
+
 
 
 
