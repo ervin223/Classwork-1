@@ -1,5 +1,5 @@
 
-print("Tere! Olen sinu uus sõber - Python!")
+print("Tere! Olen sinu uus sober - Python!")
 nimi = str(input("Kirjuta sinu nimi: "))
 print(nimi + ", oi kui ilus nimi!")
 
@@ -19,7 +19,7 @@ try:
         elif 19 < indeks < 25:
             print("Normaalkaal")
         elif 25 < indeks < 30:
-            print("Ülekaal")
+            print("Ulekaal")
         elif 30 < indeks < 35:
             print("Rasvumine")
         elif 35 < indeks < 40:
