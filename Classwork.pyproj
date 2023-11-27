@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Include="Classwork.py" />
     <Compile Include="module1.py" />
+    <Compile Include="index_tela.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
