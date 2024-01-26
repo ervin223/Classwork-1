@@ -1,41 +1,67 @@
 ﻿import telebot
+from telebot import types
+import stripe
+import qrcode
 
-bot = telebot.TeleBot('6981075954:AAFoMg-rbBKrZ3jBuZ34CqrtF47te42ISmk')
+token = '6981075954:AAFoMg-rbBKrZ3jBuZ34CqrtF47te42ISmk'
+bot = telebot.TeleBot(token)
 
-questions_file = 'C:\\Users\\admin\\Desktop\\Programm\\TelegramBOT\\TelegramBOT\\TextFile1.txt'
+stripe.api_key = 'Yefkrvmrmfkrkrvm'
+stripe_public_key = 'dvkrfmvrmvrvomf'
+
+@bot.message_handler(commands=['start'])
+def handle_start(message):
+    markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    item = types.KeyboardButton("Купить билет")
+    markup.add(item)
+
+    bot.send_message(message.chat.id, "Привет! Выберите действие:", reply_markup=markup)
 
 @bot.message_handler(func=lambda message: True)
 def handle_all_messages(message):
-    user_id = message.from_user.id
-    user_question = message.text
+    if message.text == "Купить билет":
+        # Здесь должна быть ваша логика обработки платежа через Stripe
+        # Вместо следующей строки вам нужно реализовать интеграцию с Stripe
+        # и обработку ответа от платежной системы
+        payment_intent = create_payment_intent()
 
-    # Сохраняем вопрос в файле
-    with open(questions_file, 'a') as file:
-        file.write(f'User {user_id}: {user_question}\n')
-
-    # Отвечаем пользователю
-    bot.reply_to(message, "Спасибо за ваш вопрос! Мы скоро ответим на него.")
-    
-admin_chat_id = 334616671  # Замените на chat_id вашего администратора
-
-def notify_admin():
-    with open(questions_file, 'r') as file:
-        lines = file.readlines()
-        if lines:
-            last_question = lines[-1]
-            bot.send_message(admin_chat_id, f'Новый вопрос:\n{last_question}')
-
-@bot.message_handler(commands=['notify'])
-def handle_notify(message):
-    if message.chat.id == admin_chat_id:
-        notify_admin()
+        if payment_intent:
+            qr_code = generate_qr_code(payment_intent)
+            bot.send_photo(message.chat.id, qr_code, caption="Спасибо за покупку! Ваш билет.")
+        else:
+            bot.send_message(message.chat.id, "Ошибка при обработке оплаты. Попробуйте еще раз.")
     else:
-        bot.reply_to(message, "У вас нет доступа к этой команде.")
+        bot.send_message(message.chat.id, "Непонятная команда. Выберите доступную опцию.")
 
+def create_payment_intent():
+    try:
+        intent = stripe.PaymentIntent.create(
+            amount=1000,  # Сумма в центах (например, 1000 центов = $10)
+            currency='usd',
+            payment_method_types=['card'],
+        )
+        return intent
+    except stripe.error.StripeError as e:
+        print(f"Error creating PaymentIntent: {e}")
+        return None
 
-    
+def generate_qr_code(payment_intent):
+    # Генерация QR-кода с информацией о платеже
+    payment_info = f"PaymentIntent ID: {payment_intent.id}\nAmount: {payment_intent.amount / 100} USD"
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(payment_info)
+    qr.make(fit=True)
 
-bot.polling(none_stop=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    img_bytes = BytesIO()
+    img.save(img_bytes)
 
+    return img_bytes.getvalue()
 
-
+if __name__ == "__main__":
+    bot.polling(none_stop=True)
