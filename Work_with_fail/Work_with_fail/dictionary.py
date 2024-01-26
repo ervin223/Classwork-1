@@ -67,13 +67,13 @@ else:
     print("Seda sõna pole tõlgitud. Kas soovite lisada tõlke?")
     lisa_uus_sona(vene_sonastik, vene_sona, input("Sisestage eestikeelne tõlge: "))
 
-paranda_valik = input("Kas soovite parandada vigu? (y/n): ").lower()
-if paranda_valik == 'y':
+paranda_valik = input("Kas soovite parandada vigu? (yes/not): ").lower()
+if paranda_valik == 'yes':
     vene_sona_parandamiseks = input("Sisestage vene sõna, mille tõlget soovite parandada: ")
     paranda_vea(vene_sonastik, vene_sona_parandamiseks)
     
-kontrolli_valik = input("Kas soovite kontrollida sõnade tundmist? (y/n): ").lower()
-if kontrolli_valik == 'y':
+kontrolli_valik = input("Kas soovite kontrollida sõnade tundmist? (yes/not): ").lower()
+if kontrolli_valik == 'yes':
     kontrolli_znaniye(vene_sonastik)
 
 kirjuta_sonastik_vene(vene_faili_nimi, vene_sonastik)
