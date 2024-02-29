@@ -1,0 +1,91 @@
+from sqlite3 import *
+from sqlite3 import Error
+
+def create_connection(path: str):
+    """
+    uhendus andmebaasiga
+    """ 
+    connection = None
+    try: 
+        connection = connect(path)
+        print("uhendus on edukas")
+    except Error as e:
+        print(f"Tekkis viga '{e}'") 
+    return connection
+
+conn=create_connection("C:/Users/opilane/Source/Repos/Wordle/data/data.db")
+
+def execute_query(connection, query:str):
+    """
+    Tabeli loomine
+    """
+    try:
+        cursor=connection.cursor()
+        cursor.execute(query)
+        connection.commit()
+        print("tabel on loodud")
+    except Error as e:
+        print(f"Viga '{e}' tabeli loomisega")
+
+def execute_read_query(conn, query:str):
+    cursor=connection.cursor()
+    result=None
+    try:
+        cursor.execute(query)
+        result=cursor.fetchall()
+        return result
+    except Error as e:
+        print(f"Viga '{e}'")
+
+def execute_delete_query(conn, query:str):
+    try:
+        cursor=connection.cursor()
+        cursor.execute(query)
+        connection.commit()
+    except Error as e:
+        print(f"Viga '{e}'")
+
+create_users_table = """
+CREATE TABLE IF NOT EXISTS users(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL, 
+age INTEGER,
+gender TEXT,
+student BOOLEAN
+);
+"""
+
+
+create_users = """
+INSERT INTO 
+    users(name,age,gender,student)
+VALUES
+    ('Mati', 45, 'mees',false),
+    ('Sand', 43, 'mees',false),
+    ('Matilda', 23, 'naine',false),
+    ('Matim', 42, 'mees',false),
+    ('Matix', 22, 'mees',true);
+"""
+
+select_users="SELECT * FROM users"
+
+execute_query(conn, create_users_table)
+execute_query(conn, create_users)
+users=execute_read_query(conn,select_users)
+print("Kasutajate andmed: ")
+for user in users:
+    print(user)
+
+delete_data_from_users = "DELETE FROM users WHERE student=true"
+execute_delete_query(conn, delete_data_from_users)
+print("Kustutatud tudengid on jäänud neid kellel student = 0: ")
+for user in users:
+    print(user)
+
+delete_tabel_users = "DROP TABLE users"
+execute_delete_query(conn, delete_tabel_users)
+for user in users:
+    print(user)
+print("tabel on tühi: ")
+
+
