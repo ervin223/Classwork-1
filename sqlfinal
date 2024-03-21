@@ -1,5 +1,6 @@
 https://www.youtube.com/watch?v=iZzx1keKztY
 
+
 import sqlite3
 import tkinter as tk
 from tkinter import messagebox
@@ -82,6 +83,53 @@ def view_data2():
     categories = cursor.fetchall()
     messagebox.showinfo("Список категорий", "\n".join(category[1] for category in categories))
 
+def view_data3():
+    cursor.execute('''SELECT * FROM Brandid''')
+    brands = cursor.fetchall()
+    messagebox.showinfo("Список брэндов", "\n".join(brand[1] for brand in brands))
+
+def fields():
+    # Определите текущее состояние видимости полей
+    current_state = brand_id_label.winfo_ismapped()
+    
+    # Измените состояние видимости в зависимости от текущего состояния
+    if current_state:
+        brand_id_label.pack_forget()
+        brand_id_entry.pack_forget()
+        category_id_label.pack_forget()
+        category_id_entry.pack_forget()
+        product_label.pack_forget()
+        product_entry.pack_forget()
+    else:
+        brand_id_label.pack()
+        brand_id_entry.pack()
+        category_id_label.pack()
+        category_id_entry.pack()
+        product_label.pack()
+        product_entry.pack()
+
+def fields2():
+    current_state = category_label.winfo_ismapped()
+    if current_state:
+        category_label.pack_forget()
+        category_entry.pack_forget()
+        brand_label.pack_forget()
+        brand_entry.pack_forget()
+    else:
+        category_label.pack()
+        category_entry.pack()
+        brand_label.pack()
+        brand_entry.pack()
+
+def fields3():
+    current_state = delete_product_id_label.winfo_ismapped()
+    if current_state:
+        delete_product_id_label.pack_forget()
+        delete_product_id_entry.pack_forget()
+    else:
+        delete_product_id_label.pack()
+        delete_product_id_entry.pack()
+
 root = tk.Tk()
 root.title("Database")
 root.configure(bg="#333") 
@@ -90,13 +138,13 @@ button_frame = tk.Frame(root, bg="#333")
 button_frame.pack(side=tk.TOP, padx=10, pady=10)
 
 add_category_button = tk.Button(button_frame, text="Добавить категорию", command=add_category, bg="white")
-add_category_button.pack(side=tk.LEFT, padx=5)
+add_category_button.pack(side=tk.LEFT, padx=5, pady=5)
 
 add_brand_button = tk.Button(button_frame, text="Добавить бренд", command=add_brand, bg="white")
-add_brand_button.pack(side=tk.LEFT, padx=5)
+add_brand_button.pack(side=tk.LEFT, padx=5, pady=5)
 
 add_product_button = tk.Button(button_frame, text="Добавить товар", command=add_product, bg="white")
-add_product_button.pack(side=tk.LEFT, padx=5)
+add_product_button.pack(side=tk.LEFT, padx=5, pady=5)
 
 delete_product_button = tk.Button(button_frame, text="Удалить товар", command=delete_product, bg="white")
 delete_product_button.pack(side=tk.LEFT, padx=5)
@@ -106,6 +154,38 @@ view_data_button.pack(side=tk.LEFT, padx=5)
 
 view_categories_button = tk.Button(button_frame, text="Просмотреть категории", command=view_data2, bg="white")
 view_categories_button.pack(side=tk.LEFT, padx=5)
+
+view_brands_button = tk.Button(button_frame, text="Просмотреть брэнды", command=view_data3, bg="white")
+view_brands_button.pack(side=tk.LEFT, padx=5)
+
+toggle_button = tk.Button(root, text="Поле для добавления", command=fields, bg="yellow", width=20, borderwidth=2)
+toggle_button.pack(side=tk.TOP, padx=5, pady=(10,0))
+
+toggle_brand_category_button = tk.Button(root, text="Поле для добавления к/б", command=fields2, bg="yellow", width=20, borderwidth=2)
+toggle_brand_category_button.pack(side=tk.TOP, padx=5, pady=(10,0))
+
+toggle_delete_product_id_button = tk.Button(root, text="Поле для удаления", command=fields3, bg="yellow", width=20, borderwidth=2)
+toggle_delete_product_id_button.pack(side=tk.TOP, padx=5, pady=(10,0))
+
+brand_id_label = tk.Label(root, text="ID бренда:", bg="#333", fg="white")
+brand_id_label.pack(side=tk.LEFT)
+
+brand_id_entry = tk.Entry(root)
+brand_id_entry.pack(side=tk.LEFT)
+
+category_id_label = tk.Label(root, text="ID категории:", bg="#333", fg="white")
+category_id_label.pack(side=tk.LEFT)
+
+category_id_entry = tk.Entry(root)
+category_id_entry.pack(side=tk.LEFT)
+
+product_label = tk.Label(root, text="Название товара:", bg="#333", fg="white")
+product_label.pack(side=tk.LEFT)
+
+product_entry = tk.Entry(root)
+product_entry.pack(side=tk.LEFT)
+
+# После этого добавьте остальные элементы интерфейса:
 
 category_label = tk.Label(root, text="Название категории:", bg="#333", fg="white")  
 category_label.pack(pady=(20,0))
@@ -119,23 +199,8 @@ brand_label.pack()
 brand_entry = tk.Entry(root)
 brand_entry.pack()
 
-product_label = tk.Label(root, text="Название товара:", bg="#333", fg="white")
-product_label.pack()
+# После этого продолжайте создание других элементов интерфейса, как обычно.
 
-product_entry = tk.Entry(root)
-product_entry.pack()
-
-category_id_label = tk.Label(root, text="ID категории:", bg="#333", fg="white")
-category_id_label.pack()
-
-category_id_entry = tk.Entry(root)
-category_id_entry.pack()
-
-brand_id_label = tk.Label(root, text="ID бренда:", bg="#333", fg="white")
-brand_id_label.pack()
-
-brand_id_entry = tk.Entry(root)
-brand_id_entry.pack()
 
 delete_product_id_label = tk.Label(root, text="ID товара для удаления:", bg="#333", fg="white")
 delete_product_id_label.pack()
@@ -145,6 +210,21 @@ delete_product_id_entry.pack()
 
 product_list = tk.Listbox(root, height=10, width=50, bg="white", fg="black")  
 product_list.pack(padx=10, pady=10)
+
+category_label.pack_forget()
+category_entry.pack_forget()
+brand_label.pack_forget()
+brand_entry.pack_forget()
+delete_product_id_label.pack_forget()
+delete_product_id_entry.pack_forget()
+brand_id_label.pack_forget()
+brand_id_entry.pack_forget() 
+category_id_label.pack_forget()
+category_id_entry.pack_forget()
+product_label.pack_forget()  
+product_entry.pack_forget() 
+
+
 
 root.mainloop()
 
