@@ -1,0 +1,88 @@
+import tkinter as tk
+from tkinter import messagebox
+
+class LetterGame:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Игра с буквами")
+        self.cells = {}
+        self.current_word = ""
+        self.word_list = self.generate_word_list()
+        self.create_grid()
+        self.create_keyboard()
+        self.create_buttons()
+
+    def generate_word_list(self):
+        # Список слов длиной 6 букв
+        word_list = ["python", "banana", "sunset", "purple", "rocket"]
+        return word_list
+
+    def create_grid(self):
+        for row in range(6):
+            for col in range(6):
+                cell_label = tk.Label(self.root, width=5, height=2, relief="ridge", bg="white")
+                cell_label.grid(row=row, column=col)
+                self.cells[(row, col)] = cell_label
+
+    def create_keyboard(self):
+        keyboard_frame = tk.Frame(self.root)
+        keyboard_frame.grid(row=7, columnspan=6)
+
+        letters = "abcdefghijklmnopqrstuvwxyz"
+        for index, letter in enumerate(letters):
+            button = tk.Button(keyboard_frame, text=letter, width=3, command=lambda l=letter: self.add_to_cell(l))
+            button.grid(row=index // 6, column=index % 6)
+
+    def create_buttons(self):
+        submit_button = tk.Button(self.root, text="Проверить", command=self.check_letters)
+        submit_button.grid(row=8, column=0, columnspan=3)
+
+        clear_button = tk.Button(self.root, text="Очистить", command=self.clear_cells)
+        clear_button.grid(row=8, column=3, columnspan=3)
+
+    def add_to_cell(self, letter):
+        for row in range(6):
+            for col in range(6):
+                cell_label = self.cells[(row, col)]
+                if not cell_label.cget("text"):
+                    cell_label.config(text=letter.upper())
+                    self.current_word += letter.upper()
+                    return
+
+    def clear_cells(self):
+        for row in range(6):
+            for col in range(6):
+                cell_label = self.cells[(row, col)]
+                cell_label.config(text="")
+                cell_label.config(bg="white")  # Сброс зеленого цвета
+
+    def check_letters(self):
+        if not self.current_word:
+            messagebox.showinfo("Ошибка", "Введите слово перед проверкой!")
+            return
+
+        found = False
+        for word in self.word_list:
+            if self.current_word.lower() == word:
+                found = True
+                self.highlight_cells()
+                break
+
+        if found:
+            messagebox.showinfo("Победа", "Поздравляем! Вы угадали слово!")
+        else:
+            messagebox.showinfo("Неудача", "К сожалению, это слово не из списка.")
+
+        self.current_word = ""  # Сбрасываем текущее слово
+
+    def highlight_cells(self):
+        for row in range(6):
+            for col in range(6):
+                cell_label = self.cells[(row, col)]
+                if cell_label.cget("text"):
+                    cell_label.config(bg="green")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    game = LetterGame(root)
+    root.mainloop()
