@@ -13,6 +13,7 @@ namespace functions
             LargestNum();
             Random();
             ArrayOperations();
+            Rand_();
         }
 
         static void GreetUser()
@@ -165,6 +166,45 @@ namespace functions
             Console.WriteLine($"Произведение чисел: {multiplication}");
         }
 
-        
+        // Mis arv mõtles välja arvuti? Kasuta vähemalt 5 katset, et seda teada
+        static void Rand_()
+        {
+            Random rand = new Random();
+            int randomNumber = rand.Next(1, 101);
+
+            Console.WriteLine("Есть число от 1 до 100. Попробуйте угадать это число.");
+
+            for (int i = 0; i < 5; i++)
+            {
+                Console.Write("Ваша " + (i + 1) + "-я попытка: ");
+                int guess = Convert.ToInt32(Console.ReadLine());
+
+                if (guess == randomNumber)
+                {
+                    Console.WriteLine("Верно! Компьютер загадал число " + randomNumber);
+                    break;
+                }
+                else
+                {
+                    if (i < 4)
+                    {
+                        if (guess < randomNumber)
+                        {
+                            Console.WriteLine("Компьютерское число больше " + guess + ". Попробуйте еще раз.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Компьютерское число меньше " + guess + ". Попробуйте еще раз.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("К сожалению, у вас закончились попытки. Правильное число было " + randomNumber);
+                    }
+                }
+            }
+
+            Console.WriteLine("Игра завершена.");
+        }
     }
 }
