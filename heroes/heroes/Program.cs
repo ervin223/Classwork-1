@@ -197,7 +197,6 @@ class Agency
 
         while (true)
         {
-            // Вывод меню
             Console.WriteLine("Menu:");
             Console.WriteLine("1. Show all heroes");
             Console.WriteLine("2. Show superheroes only");
@@ -207,10 +206,8 @@ class Agency
             Console.WriteLine("6. Exit");
             Console.Write("Enter your choice: ");
 
-            // Считывание выбора пользователя
             string choice = Console.ReadLine();
 
-            // Обработка выбора
             switch (choice)
             {
                 case "1":
