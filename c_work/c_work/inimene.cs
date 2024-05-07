@@ -6,25 +6,70 @@ namespace functions
     {
         static void Main(string[] args)
         {
-            GreetUser();
-            Table();
-            Elephant();
-            User();
-            LargestNum();
-            Random();
-            ArrayOperations();
-            Rand_();
+            bool exit = false;
+
+            while (!exit)
+            {
+                Console.WriteLine("Valige ülesanne:");
+                Console.WriteLine("1. Tervitus");
+                Console.WriteLine("2. Korrutustabel");
+                Console.WriteLine("3. Osta elevant");
+                Console.WriteLine("4. Kasutaja andmed");
+                Console.WriteLine("5. Suurim neljakohaline arv");
+                Console.WriteLine("6. Juhuslike numbrite ruudud");
+                Console.WriteLine("7. Massiivi toimingud");
+                Console.WriteLine("8. Arva ära number");
+                Console.WriteLine("9. Välju");
+
+                Console.Write("Sisestage ülesande number: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        TervitaKasutajat();
+                        break;
+                    case "2":
+                        Tabel();
+                        break;
+                    case "3":
+                        Slon();
+                        break;
+                    case "4":
+                        Kasutaja();
+                        break;
+                    case "5":
+                        SuurimNeljakohaline();
+                        break;
+                    case "6":
+                        Juhuslikud();
+                        break;
+                    case "7":
+                        MassiiviToimingud();
+                        break;
+                    case "8":
+                        Arva();
+                        break;
+                    case "9":
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Vale sisend. Palun proovige uuesti.");
+                        break;
+                }
+
+                Console.WriteLine();
+            }
         }
 
-        static void GreetUser()
+        static void TervitaKasutajat()
         {
-            Console.WriteLine("Привет");
+            Console.WriteLine("Tere");
         }
 
-        //* Korrutustabel väljata ekraanile sellisel kujul:
-        static void Table()
+        static void Tabel()
         {
-            Console.WriteLine("Таблица умножения:");
+            Console.WriteLine("Korrutustabel:");
             Console.Write("    ");
             for (int i = 1; i <= 10; i++)
             {
@@ -44,74 +89,69 @@ namespace functions
             Console.WriteLine();
         }
 
-        //* Ütle kasutajale "Osta elevant ära!". Senikaua korda küsimust, kuni kasutaja lõpuks ise kirjutab "elevant".
-        static void Elephant()
+        static void Slon()
         {
             string input;
             do
             {
-                Console.WriteLine("Купи слона!");
+                Console.WriteLine("Osta elevant!");
                 input = Console.ReadLine();
-            } while (!input.ToLower().Equals("слон"));
+            } while (!input.ToLower().Equals("elevant"));
 
-            Console.WriteLine("Спасибо, что купили слона!");
+            Console.WriteLine("Täname, et ostsite elevandi!");
         }
 
-
-        //* Küsi viielt kasutajalt nimed ja vanused, salvesta nende andmeid massiivi ning väljasta summaarne vanus, aritmeetiline keskmine, vaanema ja noorema inimeste nimed ja vanused.
-        static void User()
+        static void Kasutaja()
         {
-            string[] names = new string[5];
-            int[] ages = new int[5];
-            int totalAge = 0;
+            string[] nimed = new string[5];
+            int[] vanused = new int[5];
+            int koguVanus = 0;
             for (int i = 0; i < 5; i++)
             {
-                Console.Write($"Введите имя {i + 1}-го пользователя: ");
-                names[i] = Console.ReadLine();
+                Console.Write($"Sisestage {i + 1}-nda kasutaja nimi: ");
+                nimed[i] = Console.ReadLine();
 
-                Console.Write($"Введите возраст {i + 1}-го пользователя: ");
-                ages[i] = int.Parse(Console.ReadLine());
-                totalAge += ages[i];
+                Console.Write($"Sisestage {i + 1}-nda kasutaja vanus: ");
+                vanused[i] = int.Parse(Console.ReadLine());
+                koguVanus += vanused[i];
             }
-            double averageAge = (double)totalAge / ages.Length;
-            Console.WriteLine($"Общий возраст: {totalAge}");
-            Console.WriteLine($"Средний возраст: {averageAge}");
-            Console.WriteLine("Пользователи моложе:");
+            double keskmineVanus = (double)koguVanus / vanused.Length;
+            Console.WriteLine($"Kogu vanus: {koguVanus}");
+            Console.WriteLine($"Keskmine vanus: {keskmineVanus}");
+            Console.WriteLine("Nooremad kasutajad:");
             for (int i = 0; i < 5; i++)
             {
-                if (ages[i] < averageAge)
+                if (vanused[i] < keskmineVanus)
                 {
-                    Console.WriteLine($"Имя: {names[i]}, Возраст: {ages[i]}");
+                    Console.WriteLine($"Nimi: {nimed[i]}, Vanus: {vanused[i]}");
                 }
             }
             Console.WriteLine();
         }
 
-        //* Küsi kasutajalt 4 arvu ning väljasta nendest koostatud suurim neliarvuline arv.
-        static void LargestNum()
+        static void SuurimNeljakohaline()
         {
-            Console.WriteLine("Введите 4 цифры:");
-            string userInput = Console.ReadLine();
+            Console.WriteLine("Sisestage 4 numbrit:");
+            string kasutajaSisend = Console.ReadLine();
             int number;
-            while (userInput.Length != 4 || !int.TryParse(userInput, out number))
+            while (kasutajaSisend.Length != 4 || !int.TryParse(kasutajaSisend, out number))
             {
-                Console.WriteLine("Некорректный ввод. Пожалуйста, введите четырехзначное число.");
-                Console.WriteLine("Введите 4 цифры:");
-                userInput = Console.ReadLine();
+                Console.WriteLine("Vale sisend. Palun sisestage neljakohaline arv.");
+                Console.WriteLine("Sisestage 4 numbrit:");
+                kasutajaSisend = Console.ReadLine();
             }
-            char[] digits = userInput.ToCharArray();
-            Array.Sort(digits);
-            Array.Reverse(digits);
-            Console.WriteLine($"Наибольшее четырехзначное число: {new string(digits)}");
+            char[] numbrid = kasutajaSisend.ToCharArray();
+            Array.Sort(numbrid);
+            Array.Reverse(numbrid);
+            Console.WriteLine($"Suurim neljakohaline arv: {new string(numbrid)}");
         }
 
-        //* Loo  juhuslikult arvud N ja M ja sisesta massiivi arvud N'st M'ni. Trüki arvude ruudud ekraanile. N ja M arvud on vahemikus (-100,100).
-        static void Random()
+        static void Juhuslikud()
         {
-            Random random = new Random();
+            Random juhuslik = new Random();
 
-            int N = random.Next(-100, 100);
-            int M = random.Next(-100, 100);
+            int N = juhuslik.Next(-100, 100);
+            int M = juhuslik.Next(-100, 100);
 
             if (N > M)
             {
@@ -120,91 +160,89 @@ namespace functions
                 M = temp;
             }
 
-            int length = M - N + 1;
+            int pikkus = M - N + 1;
 
-            int[] numbers = new int[length];
+            int[] numbrid = new int[pikkus];
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < pikkus; i++)
             {
-                numbers[i] = N + i;
+                numbrid[i] = N + i;
             }
 
-            foreach (int num in numbers)
+            foreach (int number in numbrid)
             {
-                int square = num * num;
-                Console.WriteLine($"Квадрат числа {num}: {square}");
+                int ruut = number * number;
+                Console.WriteLine($"Arvu {number} ruut: {ruut}");
             }
         }
 
-        //* Küsi kasutajalt viis arvu, salvesta neid massiivi ning väljasta nende summa, aritmeetiline keskmine ja korrutis.
-        static void ArrayOperations()
+        static void MassiiviToimingud()
         {
-            int[] numbers = new int[5];
+            int[] numbrid = new int[5];
 
             for (int i = 0; i < 5; i++)
             {
-                Console.Write($"Введите {i + 1}-е число: ");
-                numbers[i] = int.Parse(Console.ReadLine());
+                Console.Write($"Sisestage {i + 1}-nes number: ");
+                numbrid[i] = int.Parse(Console.ReadLine());
             }
 
-            int sum = 0;
-            foreach (int num in numbers)
+            int summa = 0;
+            foreach (int number in numbrid)
             {
-                sum += num;
+                summa += number;
             }
 
-            double average = (double)sum / numbers.Length;
+            double keskmine = (double)summa / numbrid.Length;
 
-            int multiplication = 1;
-            foreach (int num in numbers)
+            int korrutis = 1;
+            foreach (int number in numbrid)
             {
-                multiplication *= num;
+                korrutis *= number;
             }
 
-            Console.WriteLine($"Сумма чисел: {sum}");
-            Console.WriteLine($"Среднее арифметическое: {average}");
-            Console.WriteLine($"Произведение чисел: {multiplication}");
+            Console.WriteLine($"Numbrite summa: {summa}");
+            Console.WriteLine($"Keskmine: {keskmine}");
+            Console.WriteLine($"Korrutis: {korrutis}");
         }
 
-        // Mis arv mõtles välja arvuti? Kasuta vähemalt 5 katset, et seda teada
-        static void Rand_()
+        static void Arva()
         {
-            Random rand = new Random();
-            int randomNumber = rand.Next(1, 101);
+            Random juhuslik = new Random();
+            int juhuslikNumber = juhuslik.Next(1, 101);
 
-            Console.WriteLine("Есть число от 1 до 100. Попробуйте угадать это число.");
+            Console.WriteLine("Arv on vahemikus 1 kuni 100. Proovige arvata seda.");
 
             for (int i = 0; i < 5; i++)
             {
-                Console.Write("Ваша " + (i + 1) + "-я попытка: ");
-                int guess = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Teie " + (i + 1) + ". katse: ");
+                int arvamus = Convert.ToInt32(Console.ReadLine());
 
-                if (guess == randomNumber)
+                if (arvamus == juhuslikNumber)
                 {
-                    Console.WriteLine("Верно! Компьютер загадал число " + randomNumber);
+                    Console.WriteLine("Õige! Arvuti arvas numbri " + juhuslikNumber);
                     break;
                 }
                 else
                 {
                     if (i < 4)
                     {
-                        if (guess < randomNumber)
+                        if (arvamus < juhuslikNumber)
                         {
-                            Console.WriteLine("Компьютерское число больше " + guess + ". Попробуйте еще раз.");
+                            Console.WriteLine("Arvuti number on suurem kui " + arvamus + ". Palun proovige uuesti.");
                         }
                         else
                         {
-                            Console.WriteLine("Компьютерское число меньше " + guess + ". Попробуйте еще раз.");
+                            Console.WriteLine("Arvuti number on väiksem kui " + arvamus + ". Palun proovige uuesti.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("К сожалению, у вас закончились попытки. Правильное число было " + randomNumber);
+                        Console.WriteLine("Kahjuks said katset läbi. Õige number oli " + juhuslikNumber);
                     }
                 }
             }
 
-            Console.WriteLine("Игра завершена.");
+            Console.WriteLine("Mäng on läbi.");
         }
     }
 }

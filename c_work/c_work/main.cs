@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +24,7 @@ namespace TARgv23_C_põhikonstruktsioonid
             //for
             //foreach
             //do
-            /*Console.ReadLine();
+            Console.ReadLine();
             Random random = new Random();
             int n=random.Next(5,10);
             double d=random.NextDouble()*10;
@@ -271,6 +271,3 @@ namespace TARgv23_C_põhikonstruktsioonid
                     break;
             }
             Console.WriteLine(paev);*/
-        }
-    }
-}
