@@ -4,6 +4,9 @@ using System.IO;
 
 class Program
 {
+    static Dictionary<string, string>? dictionaryRussian;
+    static Dictionary<string, string>? dictionaryEstonian;
+
     static Dictionary<string, string> LoadDictionary(string filePath)
     {
         Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -19,126 +22,207 @@ class Program
                 }
                 else
                 {
-                    Console.WriteLine(line.Trim());
+                    dictionary[line.Trim()] = "";
                 }
             }
         }
         return dictionary;
-}
+    }
 
-    static void WriteDictionary(string filePath, Dictionary<string, string> dictionary)
+    static void WriteDictionary(string filePath, Dictionary<string, string>? dictionary)
     {
+        if (dictionary == null)
+            return;
+
         using (StreamWriter file = new StreamWriter(filePath))
         {
             foreach (var pair in dictionary)
             {
-                file.WriteLine($"{pair.Key}-{pair.Value}");
-            }
-        }
-    }
-
-    static string TranslateWord(Dictionary<string, string> dictionary, string word)
-    {
-        if (dictionary.ContainsKey(word))
-        {
-            return dictionary[word];
-        }
-        return null;
-    }
-
-    static void AddNewWord(Dictionary<string, string> dictionary, string russianWord, string estonianWord)
-    {
-        dictionary[russianWord] = estonianWord;
-        Console.WriteLine($"Sõna lisatud: {russianWord} - {estonianWord}");
-    }
-
-    static void FixMistake(Dictionary<string, string> dictionary, string russianWord)
-    {
-        if (dictionary.ContainsKey(russianWord))
-        {
-            Console.WriteLine($"Aktuaalne eestikeelne tõlge sõnale '{russianWord}': {dictionary[russianWord]}");
-            Console.Write("Sisestage uus eestikeelne tõlge: ");
-            string newEstonianTranslation = Console.ReadLine();
-            dictionary[russianWord] = newEstonianTranslation;
-            Console.WriteLine($"Viga parandatud: {russianWord} - {newEstonianTranslation}");
-        }
-        else
-        {
-            Console.WriteLine($"Sõna '{russianWord}' ei leitud sõnastikust.");
-        }
-    }
-
-    static void TestKnowledge(Dictionary<string, string> dictionary)
-    {
-        int correctAnswers = 0;
-        int totalQuestions = 0;
-
-        Console.Write("Mitu küsimust soovite vastata? ");
-        int repetition = int.Parse(Console.ReadLine());
-
-        Random random = new Random();
-        foreach (var pair in dictionary)
-        {
-            for (int i = 0; i < repetition; i++)
-            {
-                string russianWord = pair.Key;
-                Console.Write($"Kuidas tõlgite sõna '{russianWord}' eesti keelde? ");
-                string estonianTranslation = Console.ReadLine().Trim();
-                string correctTranslation = pair.Value;
-                if (estonianTranslation.Equals(correctTranslation, StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(pair.Value))
                 {
-                    Console.WriteLine("Õige vastus!");
-                    correctAnswers++;
+                    file.WriteLine($"{pair.Key}-{pair.Value}");
                 }
                 else
                 {
-                    Console.WriteLine($"Vale vastus! Õige vastus on: {correctTranslation}");
+                    file.WriteLine(pair.Key);
                 }
-                totalQuestions++;
             }
         }
-
-        double percentage = (double)correctAnswers / totalQuestions * 100;
-        Console.WriteLine($"\nKokku õigeid vastuseid: {correctAnswers} {totalQuestions} kohta. Tulemus: {percentage:F2}%\n");
     }
 
-    static void Main(string[] args)
+    static void ViewRussianDictionary()
     {
-        string russianFileName = "C:\\Users\\admin\\Desktop\\Programm\\sonastik2\\sonastik2\\dictionary_rus.txt";
-        string estonianFileName = "C:\\Users\\admin\\Desktop\\Programm\\sonastik2\\sonastik2\\dictionary_est.txt";
+        dictionaryRussian = LoadDictionary("C:\\Users\\admin\\Desktop\\Programm\\sonastik2\\sonastik2\\dictionary_rus.txt");
 
-        Dictionary<string, string> dictionary = LoadDictionary(russianFileName);
-
-        Console.Write("Sisestage vene sõna: ");
-        string russianWord = Console.ReadLine().Trim();
-        string estonianTranslation = TranslateWord(dictionary, russianWord);
-
-        if (estonianTranslation != null)
+        if (dictionaryRussian != null && dictionaryRussian.Count == 0)
         {
-            Console.WriteLine($"Tõlge: {estonianTranslation}");
+            Console.WriteLine("Russian dictionary is empty.");
+            return;
+        }
+
+        foreach (var pair in dictionaryRussian!)
+        {
+            Console.WriteLine($"{pair.Key}  {pair.Value}");
+        }
+    }
+
+    static void ViewEstonianDictionary()
+    {
+        dictionaryEstonian = LoadDictionary("C:\\Users\\admin\\Desktop\\Programm\\sonastik2\\sonastik2\\dictionary_est.txt");
+
+        if (dictionaryEstonian != null && dictionaryEstonian.Count == 0)
+        {
+            Console.WriteLine("Estonian dictionary is empty.");
+            return;
+        }
+
+        foreach (var pair in dictionaryEstonian!)
+        {
+            Console.WriteLine($"{pair.Key}  {pair.Value}");
+        }
+    }
+
+    static void AddNewWord(string language)
+    {
+        Dictionary<string, string>? dictionary = language == "Russian" ? dictionaryRussian : dictionaryEstonian;
+
+        if (dictionary == null)
+            return;
+
+        Console.Write($"Enter the {language} word: ");
+        string word = Console.ReadLine().Trim();
+
+        if (dictionary.ContainsKey(word))
+        {
+            Console.WriteLine("This word already exists in the dictionary.");
         }
         else
         {
-            Console.WriteLine("Seda sõna pole tõlgitud. Palun kirjuta tõlke");
-            AddNewWord(dictionary, russianWord, Console.ReadLine().Trim());
+            dictionary[word] = "";
+            Console.WriteLine($"Word added: {word}");
+            WriteDictionary(language == "Russian" ? "C:\\Users\\admin\\Desktop\\Programm\\sonastik2\\sonastik2\\dictionary_rus.txt" : "C:\\Users\\admin\\Desktop\\Programm\\sonastik2\\sonastik2\\dictionary_est.txt", dictionary);
         }
+    }
 
-        Console.Write("Kas soovite parandada vigu? (yes/not): ");
-        string fixChoice = Console.ReadLine().ToLower();
-        if (fixChoice == "yes")
+    static void RemoveWord(string language)
+    {
+        Dictionary<string, string>? dictionary = language == "Russian" ? dictionaryRussian : dictionaryEstonian;
+
+        if (dictionary == null)
+            return;
+
+        Console.Write($"Enter the {language} word to remove: ");
+        string word = Console.ReadLine().Trim();
+
+        if (dictionary.ContainsKey(word))
         {
-            Console.Write("Sisestage vene sõna, mille tõlget soovite parandada: ");
-            string wordToFix = Console.ReadLine().Trim();
-            FixMistake(dictionary, wordToFix);
+            dictionary.Remove(word);
+            Console.WriteLine($"Word '{word}' removed from the dictionary.");
+            WriteDictionary(language == "Russian" ? "C:\\Users\\admin\\Desktop\\Programm\\sonastik2\\sonastik2\\dictionary_rus.txt" : "C:\\Users\\admin\\Desktop\\Programm\\sonastik2\\sonastik2\\dictionary_est.txt", dictionary);
         }
-
-        Console.Write("Kas soovite kontrollida sõnade tundmist? (yes/not): ");
-        string testChoice = Console.ReadLine().ToLower();
-        if (testChoice == "yes")
+        else
         {
-            TestKnowledge(dictionary);
+            Console.WriteLine($"Word '{word}' not found in the {language} dictionary.");
+        }
+    }
+
+    static void ModifyWord(string language)
+    {
+        Dictionary<string, string>? dictionary = null;
+
+        if (language.ToLower() == "russian")
+        {
+            dictionary = dictionaryRussian;
+        }
+        else if (language.ToLower() == "estonian")
+        {
+            dictionary = dictionaryEstonian;
         }
 
-        WriteDictionary(russianFileName, dictionary);
+        if (dictionary == null)
+        {
+            Console.WriteLine("Invalid language specified.");
+            return;
+        }
+
+        Console.Write($"Enter the word to modify ({language}): ");
+        string word = Console.ReadLine().Trim(); //удаление пробелов
+
+        if (dictionary.TryGetValue(word, out string? currentTranslation))
+        {
+            Console.Write($"Current translation for the word '{word}': {currentTranslation}\n");
+            Console.Write("Enter the new translation: ");
+            string newTranslation = Console.ReadLine();
+
+            // Проверка на null перед присваиванием
+            if (dictionary != null)
+            {
+                dictionary[word] = newTranslation;
+                Console.WriteLine($"Word '{word}' modified in the dictionary.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Word not found in the dictionary.");
+        }
+    }
+
+
+    static void Main(string[] args)
+    {
+        bool continueLoop = true;
+
+        while (continueLoop)
+        {
+            Console.WriteLine("\nChoose an action:");
+            Console.WriteLine("1. View Russian dictionary");
+            Console.WriteLine("2. View Estonian dictionary");
+            Console.WriteLine("3. Add a new word to the Russian dictionary");
+            Console.WriteLine("4. Remove a word from the Russian dictionary");
+            Console.WriteLine("5. Modify a word in the Russian dictionary");
+            Console.WriteLine("6. Add a new word to the Estonian dictionary");
+            Console.WriteLine("7. Remove a word from the Estonian dictionary");
+            Console.WriteLine("8. Modify a word in the Estonian dictionary");
+            Console.WriteLine("9. Exit");
+
+            Console.Write("Enter your choice: ");
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("\nRussian dictionary:");
+                    ViewRussianDictionary();
+                    break;
+                case "2":
+                    Console.WriteLine("\nEstonian dictionary:");
+                    ViewEstonianDictionary();
+                    break;
+                case "3":
+                    AddNewWord("Russian");
+                    break;
+                case "4":
+                    RemoveWord("Russian");
+                    break;
+                case "5":
+                    ModifyWord("Russian");
+                    break;
+                case "6":
+                    AddNewWord("Estonian");
+                    break;
+                case "7":
+                    RemoveWord("Estonian");
+                    break;
+                case "8":
+                    ModifyWord("Estonian");
+                    break;
+                case "9":
+                    continueLoop = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a valid option.");
+                    break;
+            }
+        }
     }
 }
