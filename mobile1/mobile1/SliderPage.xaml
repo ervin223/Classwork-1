@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="mobile1.SliderPage">
+    <StackLayout>
+        <Label x:Name="redLabel" Text="Red = 0" />
+        <Slider x:Name="RedSlider" Maximum="255" ValueChanged="OnSliderValueChanged" />
+        <Label x:Name="greenLabel" Text="Green = 0" />
+        <Slider x:Name="GreenSlider" Maximum="255" ValueChanged="OnSliderValueChanged" />
+        <Label x:Name="blueLabel" Text="Blue = 255" />
+        <Slider x:Name="BlueSlider" Maximum="255" ValueChanged="OnSliderValueChanged" />
+        <BoxView x:Name="ColorFrame" HeightRequest="100" WidthRequest="100" />
+        <Button Text="Random Color" Clicked="OnRandomColorButtonClicked" />
+    </StackLayout>
+=======
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="mobile1.SliderPage"
@@ -67,4 +83,5 @@
                AbsoluteLayout.LayoutFlags="PositionProportional"/>
 
     </AbsoluteLayout>
+>>>>>>> 482b61d0de0a537da6231948df3630c89bc575cd
 </ContentPage>
