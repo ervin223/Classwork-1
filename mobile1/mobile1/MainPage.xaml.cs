@@ -11,7 +11,7 @@ namespace mobile1
 
         private async void OnPage1ButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Slider());
+            await Navigation.PushAsync(new SliderPage());
         }
 
         private async void OnPage2ButtonClicked(object sender, EventArgs e)

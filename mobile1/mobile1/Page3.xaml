@@ -1,6 +1,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="YourNamespace.Page3"
+             x:Class="mobile1.Page3"
              Title="Page 3">
     <StackLayout>
         <Label Text="Welcome to Page 3!" 
