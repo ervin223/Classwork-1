@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-﻿using System;
+using System;
 using System.Diagnostics; // Для логирования
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
-=======
-﻿using Microsoft.Maui.Controls;
-using System;
->>>>>>> 482b61d0de0a537da6231948df3630c89bc575cd
 
 namespace mobile1
 {
@@ -16,12 +11,12 @@ namespace mobile1
         public SliderPage()
         {
             InitializeComponent();
-<<<<<<< HEAD
 
             // Инициализация слайдеров и установка начального цвета
             RedSlider.Value = 0;
             GreenSlider.Value = 0;
             BlueSlider.Value = 255; // Синий по умолчанию
+            OpacityStepper.Value = 1; // Прозрачность по умолчанию - полная непрозрачность
 
             UpdateColor(); // Применяем начальный цвет
         }
@@ -55,46 +50,23 @@ namespace mobile1
             int red = (int)RedSlider.Value;
             int green = (int)GreenSlider.Value;
             int blue = (int)BlueSlider.Value;
+            double opacity = OpacityStepper.Value; // Получаем значение прозрачности
 
-            // Применяем цвет к ColorFrame
-            ColorFrame.BackgroundColor = Color.FromRgb(red, green, blue);
+            // Применяем цвет и прозрачность к ColorFrame
+            ColorFrame.BackgroundColor = Color.FromRgba(red, green, blue, opacity);
 
             // Логируем примененный цвет
-            Debug.WriteLine($"Updated ColorFrame to R: {red}, G: {green}, B: {blue}");
+            Debug.WriteLine($"Updated ColorFrame to R: {red}, G: {green}, B: {blue}, Opacity: {opacity:F1}");
         }
 
         // Метод для случайного изменения цветов
         private async void OnRandomColorButtonClicked(object sender, EventArgs e)
-=======
-            UpdateColor(); // Инициализация начального цвета
-        }
-
-        // Обработчик изменения значений слайдеров
-        private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            UpdateColor();
-        }
-
-        // Метод для обновления цвета на основе значений слайдеров
-        private void UpdateColor()
-        {
-            int red = Convert.ToInt32(RedSlider.Value);
-            int green = Convert.ToInt32(GreenSlider.Value);
-            int blue = Convert.ToInt32(BlueSlider.Value);
-
-            // Обновляем цвет фона Frame
-            ColorFrame.BackgroundColor = Color.FromRgb(red, green, blue);
-        }
-
-        private void OnRandomColorButtonClicked(object sender, EventArgs e)
->>>>>>> 482b61d0de0a537da6231948df3630c89bc575cd
         {
             Random random = new Random();
             int randomRed = random.Next(0, 256);
             int randomGreen = random.Next(0, 256);
             int randomBlue = random.Next(0, 256);
 
-<<<<<<< HEAD
             // Анимация изменения значений слайдеров на случайные
             await AnimateSliders(randomRed, randomGreen, randomBlue);
         }
@@ -127,16 +99,9 @@ namespace mobile1
             });
 
             return tcs.Task;
-=======
-            // Устанавливаем новые значения слайдеров без анимации
-            RedSlider.Value = randomRed;
-            GreenSlider.Value = randomGreen;
-            BlueSlider.Value = randomBlue;
-
-            // Обновляем цвет сразу после изменения значений
-            UpdateColor();
         }
 
+        // Обработчик изменения значения Stepper для прозрачности
         private void OnStepperValueChanged(object sender, ValueChangedEventArgs e)
         {
             double newOpacity = e.NewValue;
@@ -146,7 +111,8 @@ namespace mobile1
 
             // Обновляем текст для отображения текущего значения прозрачности
             OpacityLabel.Text = $"Opacity: {newOpacity:F1}";
->>>>>>> 482b61d0de0a537da6231948df3630c89bc575cd
+
+            UpdateColor(); // Применяем новый цвет с обновленной прозрачностью
         }
     }
 }
