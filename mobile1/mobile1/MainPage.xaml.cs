@@ -1,4 +1,4 @@
-﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls;
 
 namespace mobile1
 {
@@ -16,7 +16,7 @@ namespace mobile1
 
         private async void OnPage2ButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Page2());
+            await Navigation.PushAsync(new Tripstraptrull());
         }
 
         private async void OnPage3ButtonClicked(object sender, EventArgs e)
