@@ -1,12 +1,42 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="mobile1.MainPage"
-             Title="Main Page">
+             x:Class="mobile1.Tripstraptrull"
+             Title="Tripstraptrull">
+    
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <!-- Grid для игрового поля -->
+        <Grid x:Name="GameGrid" RowSpacing="5" ColumnSpacing="5" Margin="28,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
 
-    <VerticalStackLayout Padding="30" Spacing="20">
-        <Button Text="Go to Page 1" Clicked="OnPage1ButtonClicked"/>
-        <Button Text="Go to Page 2" Clicked="OnPage2ButtonClicked"/>
-        <Button Text="Go to Page 3" Clicked="OnPage3ButtonClicked"/>
-    </VerticalStackLayout>
+            <!-- Кнопки для ячеек игрового поля -->
+            <Button x:Name="Cell00" Grid.Row="0" Grid.Column="0" FontSize="24" Clicked="OnCellClicked" />
+            <Button x:Name="Cell01" Grid.Row="0" Grid.Column="1" FontSize="24" Clicked="OnCellClicked"/>
+            <Button x:Name="Cell02" Grid.Row="0" Grid.Column="2" FontSize="24" Clicked="OnCellClicked"/>
+
+            <Button x:Name="Cell10" Grid.Row="1" Grid.Column="0" FontSize="24" Clicked="OnCellClicked"/>
+            <Button x:Name="Cell11" Grid.Row="1" Grid.Column="1" FontSize="24" Clicked="OnCellClicked"/>
+            <Button x:Name="Cell12" Grid.Row="1" Grid.Column="2" FontSize="24" Clicked="OnCellClicked"/>
+
+            <Button x:Name="Cell20" Grid.Row="2" Grid.Column="0" FontSize="24" Clicked="OnCellClicked"/>
+            <Button x:Name="Cell21" Grid.Row="2" Grid.Column="1" FontSize="24" Clicked="OnCellClicked"/>
+            <Button x:Name="Cell22" Grid.Row="2" Grid.Column="2" FontSize="24" Clicked="OnCellClicked"/>
+        </Grid>
+
+        <!-- Кнопки управления игрой -->
+        <StackLayout Orientation="Horizontal" Margin="10">
+            <Button Text="Новая игра" HorizontalOptions="FillAndExpand" Clicked="OnNewGameClicked" Margin="5,5,0,0"/>
+            <Button Text="Случайный игрок" HorizontalOptions="FillAndExpand" Clicked="OnRandomPlayerClicked" Margin="5,5,0,0"/>
+            <Button x:Name="ThemeSwitchButton" Text="Переключить тему" Clicked="OnThemeSwitchClicked" Margin="5,5,0,0" />
+        </StackLayout>
+    </StackLayout>
 
 </ContentPage>
