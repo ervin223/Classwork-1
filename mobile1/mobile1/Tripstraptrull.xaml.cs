@@ -1,16 +1,17 @@
+// tic tac toe game
+
 namespace mobile1;
 
 public partial class Tripstraptrull : ContentPage
 {
-    private bool isPlayerXTurn = true; // Переменная для отслеживания текущего игрока
-    private Button[,] buttons = new Button[3, 3]; // Массив кнопок для игрового поля
+    private bool isPlayerXTurn = true; 
+    private Button[,] buttons = new Button[3, 3]; 
     private Random random = new Random();
 
     public Tripstraptrull() // Конструктор
     {
         InitializeComponent();
 
-        // Инициализируем массив кнопок (предполагается, что они есть в XAML)
         buttons[0, 0] = Cell00;
         buttons[0, 1] = Cell01;
         buttons[0, 2] = Cell02;
@@ -21,14 +22,11 @@ public partial class Tripstraptrull : ContentPage
         buttons[2, 1] = Cell21;
         buttons[2, 2] = Cell22;
 
-        // Устанавливаем текст кнопки в зависимости от текущей темы
         UpdateThemeButtonText();
     }
 
-    // Логика переключения между темной и светлой темами
     private void OnThemeSwitchClicked(object sender, EventArgs e)
     {
-        // Переключаем тему
         if (App.Current.UserAppTheme == AppTheme.Light)
         {
             App.Current.UserAppTheme = AppTheme.Dark;
@@ -38,11 +36,9 @@ public partial class Tripstraptrull : ContentPage
             App.Current.UserAppTheme = AppTheme.Light;
         }
 
-        // Обновляем текст кнопки после изменения темы
         UpdateThemeButtonText();
     }
 
-    // Метод для обновления текста кнопки в зависимости от текущей темы
     private void UpdateThemeButtonText()
     {
         if (App.Current.UserAppTheme == AppTheme.Light)
@@ -55,7 +51,6 @@ public partial class Tripstraptrull : ContentPage
         }
     }
 
-    // Обработка кликов по ячейке
     private void OnCellClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
@@ -68,12 +63,10 @@ public partial class Tripstraptrull : ContentPage
         CheckForWinner();
     }
 
-    // Проверка победителя
     private void CheckForWinner()
     {
         string winner = null;
 
-        // Проверка строк и столбцов
         for (int i = 0; i < 3; i++)
         {
             if (buttons[i, 0].Text == buttons[i, 1].Text && buttons[i, 1].Text == buttons[i, 2].Text && !string.IsNullOrEmpty(buttons[i, 0].Text))
@@ -82,7 +75,6 @@ public partial class Tripstraptrull : ContentPage
                 winner = buttons[0, i].Text;
         }
 
-        // Проверка диагоналей
         if (buttons[0, 0].Text == buttons[1, 1].Text && buttons[1, 1].Text == buttons[2, 2].Text && !string.IsNullOrEmpty(buttons[0, 0].Text))
             winner = buttons[0, 0].Text;
         if (buttons[0, 2].Text == buttons[1, 1].Text && buttons[1, 1].Text == buttons[2, 0].Text && !string.IsNullOrEmpty(buttons[0, 2].Text))
@@ -100,7 +92,6 @@ public partial class Tripstraptrull : ContentPage
         }
     }
 
-    // Проверка, заполнено ли игровое поле
     private bool IsBoardFull()
     {
         foreach (var button in buttons)
@@ -111,7 +102,6 @@ public partial class Tripstraptrull : ContentPage
         return true;
     }
 
-    // Попап с предложением начать игру заново
     private async void ShowPlayAgainPopup()
     {
         bool playAgain = await DisplayAlert("Игра окончена", "Желаешь ли еще поиграть?", "Да", "Нет");
@@ -121,7 +111,6 @@ public partial class Tripstraptrull : ContentPage
         }
     }
 
-    // Начало новой игры
     private void OnNewGameClicked(object sender, EventArgs e)
     {
         foreach (var button in buttons)
@@ -132,7 +121,6 @@ public partial class Tripstraptrull : ContentPage
         isPlayerXTurn = true;
     }
 
-    // Случайный выбор первого игрока
     private void OnRandomPlayerClicked(object sender, EventArgs e)
     {
         isPlayerXTurn = random.Next(2) == 0;
