@@ -1,3 +1,5 @@
+// App, which help easier send information to user people
+
 using System;
 using System.Collections.Generic;
 using Microsoft.Maui.Controls;
