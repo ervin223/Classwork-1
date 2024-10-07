@@ -1,3 +1,5 @@
+// rgb slider c#
+
 using System;
 using System.Diagnostics; // Для логирования
 using System.Threading.Tasks;
